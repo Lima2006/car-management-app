@@ -1,0 +1,28 @@
+{
+  "brand": [
+    { "name": "Fiat" },
+    { "name": "Alfa Romeo" },
+    { "name": "Lancia" },
+    { "name": "Autobianchi" }
+  ],
+  "car": [
+    {
+      "name": "Palio",
+      "plate": "FAT-1300",
+      "color": "Prata",
+      "brand": "Fiat"
+    },
+    {
+      "name": "MiTo",
+      "plate": "ALR-4740",
+      "color": "Bordô",
+      "brand": "Alfa Romeo"
+    },
+    {
+      "name": "Delta",
+      "plate": "ALR-4740",
+      "color": "Bordô",
+      "brand": "Lancia"
+    }
+  ]
+}
