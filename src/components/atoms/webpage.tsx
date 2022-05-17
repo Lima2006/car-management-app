@@ -2,10 +2,10 @@ import Head from "next/head";
 
 interface WebpageProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
-  className: string;
+  className?: string;
 }
 
-const Webpage = ({ children, title, className, ...props }) => (
+const Webpage: React.FC<WebpageProps> = ({ children, title, className, ...props }) => (
   <div className={className ?? "h-screen w-full"} {...props}>
     <Head>
       <title>{title}</title>
