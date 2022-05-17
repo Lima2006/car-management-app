@@ -1,9 +1,8 @@
 import Link from "next/link"
+import Home from "../components/screens/Home";
 
 const HomePage: React.FC = () => {
-  return <div>
-    <Link href="/carros">Carros</Link>
-  </div>
+  return <Home />
 }
 
 export default HomePage;
