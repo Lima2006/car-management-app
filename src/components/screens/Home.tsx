@@ -1,10 +1,11 @@
+import Webpage from "../atoms/webpage";
 import Navbar from "../molecules/navbar";
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <Webpage title="Homepage">
       <Navbar />
-    </div>
+    </Webpage>
   );
 };
 export default Home;
