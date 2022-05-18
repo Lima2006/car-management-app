@@ -1,15 +1,20 @@
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   className?: string;
+  onClick: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
-  children, className
+  className,
+  onClick,
+  ...props
 }) => {
   return (
-    <button className={["", className].join(" ")}>
-      {children}
-    </button>
-  )
+    <button
+      onClick={onClick}
+      className={["bg-gray-200 px-2 py-1 rounded-lg", className].join(" ")}
+      {...props}
+    />
+  );
 };
 
 export default Button;
