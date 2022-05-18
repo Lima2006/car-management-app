@@ -1,5 +1,7 @@
+import Cars from "../../components/screens/Cars";
+
 const CarsPage = () => {
-  return <div>Aqui serão mostrados os carros</div>;
+  return <Cars />
 };
 
 export default CarsPage;
