@@ -14,7 +14,7 @@ const Selector: React.FC<SelectorProps> = ({
     id={id}
     className={["border-2 rounded-sm", className].join(" ")}
   >
-    <option value="" className="text-gray-400" selected>{placeholder}</option>
+    <option value="" selected>{placeholder}</option>
     {children}
   </select>
 );
