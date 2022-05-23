@@ -9,8 +9,10 @@ const Input: React.FC<InputProps> = ({
   onChange,
   type,
   placeholder,
+  id,
 }) => (
   <input
+    id={id}
     type={type}
     className={["border-2 rounded-sm", className].join(" ")}
     value={value}
