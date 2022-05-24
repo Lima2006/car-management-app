@@ -11,10 +11,10 @@ interface CarTableRowProps {
 
 const CarTableRow: React.FC<CarTableRowProps> = ({ car, key, className }) => (
   <tr key={key} className={["odd:bg-gray-100", className].join(" ")}>
-    <td className="w-1/4">{car.plate}</td>
-    <td className="w-1/4">{car.color}</td>
-    <td className="w-auto">{car.brand.name}</td>
-    <td className="space-x-2 flex flex-initial items-center w-fit p-2">
+    <td>{car.plate}</td>
+    <td>{car.color}</td>
+    <td>{car.brand.name}</td>
+    <td className="space-x-2 flex py-2">
       <Button
         className="bg-blue-400 flex flex-row"
         onClick={() => console.log("Editar " + car.id)}

@@ -13,25 +13,14 @@ import CarDataType from "../types/car-data-type";
 import PlusIcon from "../assets/icons/plus-icon.svg"
 import LinkButton from "../atoms/link-button";
 import { useQuery, UseQueryResult } from "react-query";
-import { getCarsList } from "../services/getCarsList";
-import axios from "axios";
+import { getCarsList } from "../../services/getCarsList";
 
 const Cars: React.FC = () => {
-  const { status, error, data }: UseQueryResult<CarDataType[], Error> = useQuery<CarDataType[], Error>("cars", getCarsList)
+  const { status, error, data: cars }: UseQueryResult<CarDataType[], Error> = useQuery<CarDataType[], Error>("cars", getCarsList)
   const brandList: BrandDataType[] = [
     { name: "Fiat", id: 0 },
     { name: "Alfa Romeo", id: 1 },
   ];
-  const cars = [{
-    name: "a",
-    id: 0,
-    plate: "a",
-    brand: {
-      id: 0,
-      name: "a"
-    },
-    color: "a"
-  }]
   const [plateFilter, setPlateFilter] = useState("");
   return (
     <Webpage title="Carros">
@@ -57,17 +46,14 @@ const Cars: React.FC = () => {
             id="brand-selector"
             placeholder="Todas"
           >
-            {brandList.map((brand) => (
-              <BrandOption key={brand.id} brand={brand} />
-            ))}
+            
           </Selector>
         </Row>
         <Table
-          headerClassName="text-left"
-          className="border"
+          className={{table: "border", header: ["w-1/4", "w-1/4", "w-auto", "w-48"]}}
           headers={["Placa", "Cor", "Marca", "Ações"]}
         >
-          {data?.map((car: CarDataType) => (
+          {cars?.map((car: CarDataType) => (
             <CarTableRow key={car.id} car={car} className="" />
           ))}
         </Table>

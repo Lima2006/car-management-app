@@ -1,31 +1,48 @@
-interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
-  className?: string;
-  headers?: string[] | string;
-  headerClassName?: string;
+import { ReactNode } from "react";
+
+interface TableProps {
+  children: ReactNode;
+  className?: { table?: string; header?: string[] | string };
+  headers?: string[];
 }
 
-const Table: React.FC<TableProps> = ({ children, className, headers, headerClassName }) => {
-  // A função mapeia uma array de strings e as retorna dentro de uma tag "th".
-  const mapHeadersArray = (input: string[]) => {
-    return input.map((title) => <th key={title} className={headerClassName}>{title}</th>);
-  };
+interface HeaderProps {
+  className?: string[] | string;
+  headers: string[];
+}
 
-  // A função retrna o(s) título(s) dentro de uma tag "th".
-  const headersToTableData = (input: string[] | string) => {
-    if (typeof input === "object" && input.length > 1)
-      return mapHeadersArray(input);
-    else return <th className={headerClassName}>{input}</th>;
+const Header: React.FC<HeaderProps> = ({ className, headers }) => {
+  const validateClassName = (input: number) => {
+    if (typeof className === "string") return className;
+    else if (
+      typeof className === "object" &&
+      typeof className[input] === "string"
+    )
+      return className[input];
+    else return "";
   };
+  return (
+    <thead>
+      <tr>
+        {headers.map((header, i) => (
+          <th key={header} className={["bg-gray-200 text-left", validateClassName(i)].join(" ")}>
+            {header}
+          </th>
+        ))}
+      </tr>
+    </thead>
+  );
+};
 
-  // Caso o parâmetro "headers" tenha um valor aceito, a função renderiza o cabeçalho da tabela.
-  const tableHeaders = (input: string[] | string | undefined) => {
-    if (input) {
-      return <tr>{headersToTableData(input)}</tr>;
+const Table: React.FC<TableProps> = ({ children, className, headers }) => {
+  const showHeader = (headers: string[], className: string[] | string) => {
+    if (headers.length > 1 || (headers.length === 1 && headers[0] !== "")) {
+      return <Header headers={headers} className={className} />;
     }
   };
   return (
-    <table className={["w-full", className].join(" ")}>
-      {tableHeaders(headers)}
+    <table className={["w-full", className.table].join(" ")}>
+      {showHeader(headers, className.header)}
       <tbody>{children}</tbody>
     </table>
   );
