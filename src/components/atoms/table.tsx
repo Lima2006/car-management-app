@@ -12,6 +12,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ className, headers }) => {
+
+  // A função verifica se o objeto inserido é compatível com o className.
   const validateClassName = (input: number) => {
     if (typeof className === "string") return className;
     else if (
@@ -43,7 +45,7 @@ const Table: React.FC<TableProps> = ({ children, className, headers }) => {
   return (
     <table className={["w-full", className.table].join(" ")}>
       {showHeader(headers, className.header)}
-      <tbody>{children}</tbody>
+      {children}
     </table>
   );
 };

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Body from "../atoms/body";
-import BrandOption from "../atoms/brand-option";
-import CarTableRow from "../atoms/car-table-row";
+import CarTableRows from "../atoms/car-table-rows";
 import Input from "../atoms/input";
 import Row from "../atoms/row";
 import Selector from "../atoms/selector";
@@ -53,9 +52,7 @@ const Cars: React.FC = () => {
           className={{table: "border", header: ["w-1/4", "w-1/4", "w-auto", "w-48"]}}
           headers={["Placa", "Cor", "Marca", "Ações"]}
         >
-          {cars?.map((car: CarDataType) => (
-            <CarTableRow key={car.id} car={car} className="" />
-          ))}
+            <CarTableRows cars={cars} className={{rows: "odd:bg-gray-100"}} />
         </Table>
       </Body>
     </Webpage>
