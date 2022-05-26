@@ -4,7 +4,6 @@ interface SelectorProps {
   id: string;
   name?: string;
   children?: any;
-  defaultValue?: string;
   className?: { div?: string; label?: string; select?: string };
   label?: string;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
@@ -16,7 +15,6 @@ const Selector: React.FC<SelectorProps> = ({
   id,
   name,
   children,
-  defaultValue,
   label,
   onChange,
   value,
@@ -29,7 +27,6 @@ const Selector: React.FC<SelectorProps> = ({
       name={name}
       id={id}
       className={["border-2 rounded-sm w-48", className.select].join(" ")}
-      defaultValue={defaultValue}
       value={value}
       onChange={(e) => onChange(e)}
     >
