@@ -25,6 +25,7 @@ const Cars: React.FC = () => {
     { name: "Alfa Romeo", id: 1 },
   ];
   const [plateFilter, setPlateFilter] = useState("");
+  const [brandFilter, setBrandFilter] = useState("all")
   return (
     <Webpage title="Carros">
       <Navbar />
@@ -49,6 +50,8 @@ const Cars: React.FC = () => {
             id="select-brand"
             label="Filtrar por marca"
             defaultValue="all"
+            value={brandFilter}
+            onChange={(e) => setBrandFilter(e.target["value"])}
           >
             <option value="all">Todas</option>
             {brandList.map((brand: BrandDataType) => (
