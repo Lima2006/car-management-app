@@ -1,5 +1,5 @@
 import CarDataType from "../types/car-data-type";
-import Button from "./button";
+import Button from "../atoms/button";
 import EditIcon from "../assets/icons/edit-icon.svg";
 import DeleteIcon from "../assets/icons/delete-icon.svg";
 
