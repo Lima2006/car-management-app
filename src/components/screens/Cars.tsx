@@ -14,7 +14,6 @@ import LinkButton from "../atoms/link-button";
 import { useQuery, UseQueryResult } from "react-query";
 import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
-import 'react-toastify/dist/ReactToastify.css'
 
 const Cars: React.FC = () => {
   const {
