@@ -8,7 +8,6 @@ import { useMutation, UseMutationResult, useQueryClient } from "react-query";
 import { api } from "../../libs/api";
 import Column from "../atoms/column";
 import CarInformationCard from "./car-information-card";
-import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
 import showToastContext from "../contexts/show-toast-context";
 
