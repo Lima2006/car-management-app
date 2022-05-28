@@ -35,7 +35,7 @@ const Cars: React.FC = () => {
   // === Filter functions ===
   // Filter by plate
   const filterDataByPlate: FilterDataByType = (data, query) => {
-    return data.filter((car) => {
+    return data?.filter((car) => {
       if (query === "") {
         return data;
       } else if (car.plate.toLowerCase().includes(query.toLowerCase())) {
