@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Body from "../atoms/body";
-import BrandOption from "../atoms/brand-option";
-import CarTableRow from "../atoms/car-table-row";
+import CarTableRows from "../molecules/car-table-rows";
 import Input from "../atoms/input";
 import Row from "../atoms/row";
 import Selector from "../atoms/selector";
@@ -10,66 +9,92 @@ import Webpage from "../atoms/webpage";
 import Navbar from "../molecules/navbar";
 import BrandDataType from "../types/brand-data-type";
 import CarDataType from "../types/car-data-type";
-import PlusIcon from "../assets/icons/plus-icon.svg"
+import PlusIcon from "../assets/icons/plus-icon.svg";
 import LinkButton from "../atoms/link-button";
 import { useQuery, UseQueryResult } from "react-query";
-import { getCarsList } from "../services/getCarsList";
-import axios from "axios";
+import { getCarsList } from "../../services/getCarsList";
+import Title from "../atoms/title";
+import "react-toastify/dist/ReactToastify.css";
+import { FilterDataByType } from "../types/filterDataByType";
 
 const Cars: React.FC = () => {
-  const { status, error, data }: UseQueryResult<CarDataType[], Error> = useQuery<CarDataType[], Error>("cars", getCarsList)
+  // === Filter Inputs ===
+  // Plate filter
+  const [plateFilter, setPlateFilter] = useState("");
+  // Brand filter
+  const [brandFilter, setBrandFilter] = useState("all");
+
+  // === Query ===
+  // Get cars
+  const { data }: UseQueryResult<CarDataType[], Error> = useQuery<
+    CarDataType[],
+    Error,
+    CarDataType[]
+  >("cars", () => getCarsList());
+
+  // === Filter functions ===
+  // Filter by plate
+  const filterDataByPlate: FilterDataByType = (data, query) => {
+    return data.filter((car) => {
+      if (query === "") {
+        return data;
+      } else if (car.plate.toLowerCase().includes(query.toLowerCase())) {
+        return car;
+      }
+    });
+  };
+
+  // Filtered data
+  const cars = filterDataByPlate(data, plateFilter)
+
+  // === Temporário ===
   const brandList: BrandDataType[] = [
     { name: "Fiat", id: 0 },
     { name: "Alfa Romeo", id: 1 },
   ];
-  const cars = [{
-    name: "a",
-    id: 0,
-    plate: "a",
-    brand: {
-      id: 0,
-      name: "a"
-    },
-    color: "a"
-  }]
-  const [plateFilter, setPlateFilter] = useState("");
+
   return (
     <Webpage title="Carros">
       <Navbar />
       <Body className="space-y-4">
-        <Row className="justify-between">
-          <h1>Carros</h1>
-          <LinkButton href="/carro/novo">
+        <Row className="justify-between items-center">
+          <Title>Carros</Title>
+          <LinkButton href="/carros/novo">
             <PlusIcon width="24px" />
             <span>Novo Carro</span>
           </LinkButton>
         </Row>
         <Row className="space-x-4">
-          <label htmlFor="plateFilter">Filtrar por carro</label>
           <Input
             id="plateFilter"
             type="text"
             value={plateFilter}
             onChange={(e) => setPlateFilter(e.target["value"])}
+            label="Filtrar por placa"
           />
           <Selector
             name="selecionar-marcas"
-            id="brand-selector"
-            placeholder="Todas"
+            id="select-brand"
+            label="Filtrar por marca"
+            value={brandFilter}
+            onChange={(e) => setBrandFilter(e.target["value"])}
           >
-            {brandList.map((brand) => (
-              <BrandOption key={brand.id} brand={brand} />
+            <option value="all">Todas</option>
+            {brandList.map((brand: BrandDataType) => (
+              <option key={brand.id} value={brand.id}>
+                {brand.name}
+              </option>
             ))}
           </Selector>
         </Row>
         <Table
-          headerClassName="text-left"
-          className="border"
+          className={{
+            table: "border",
+            header: ["w-1/4", "w-1/4", "w-auto", "w-48"],
+          }}
           headers={["Placa", "Cor", "Marca", "Ações"]}
         >
-          {data?.map((car: CarDataType) => (
-            <CarTableRow key={car.id} car={car} className="" />
-          ))}
+          <CarTableRows cars={cars} className={{ rows: "odd:bg-gray-100" }} />
         </Table>
       </Body>
     </Webpage>

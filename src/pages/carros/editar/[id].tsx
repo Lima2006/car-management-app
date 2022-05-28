@@ -1,5 +1,7 @@
+import EditCar from "../../../components/screens/EditCar";
+
 const EditCarPage = () => {
-  return <div>Aqui será o formulário para editar um carro</div>;
+  return <EditCar />;
 };
 
 export default EditCarPage;

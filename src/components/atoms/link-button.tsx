@@ -1,13 +1,13 @@
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 
-interface LinkButton {
-  href: string;
+interface LinkButtonProps extends LinkProps {
+  children: any
   className?: string;
 }
 
-const LinkButton = ({ href, children }) => (
+const LinkButton: React.FC<LinkButtonProps> = ({ href, children, className }) => (
   <Link href={href}>
-    <div className="bg-gray-200 px-2 py-1 rounded-lg flex flex-row">{children}</div>
+    <div className={["bg-gray-200 px-2 py-1 rounded-lg flex flex-row cursor-pointer items-center h-min", className].join(" ")}>{children}</div>
   </Link>
 );
 
