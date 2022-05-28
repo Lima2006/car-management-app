@@ -12,7 +12,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ className, headers }) => {
-
   // A função verifica se o objeto inserido é compatível com o className.
   const validateClassName = (input: number) => {
     if (typeof className === "string") return className;
@@ -23,11 +22,17 @@ const Header: React.FC<HeaderProps> = ({ className, headers }) => {
       return className[input];
     else return "";
   };
+  
   return (
     <thead>
       <tr>
         {headers.map((header, i) => (
-          <th key={header} className={["bg-gray-200 text-left", validateClassName(i)].join(" ")}>
+          <th
+            key={header}
+            className={["bg-gray-200 text-left", validateClassName(i)].join(
+              " "
+            )}
+          >
             {header}
           </th>
         ))}
@@ -36,9 +41,13 @@ const Header: React.FC<HeaderProps> = ({ className, headers }) => {
   );
 };
 
-const Table: React.FC<TableProps> = ({ children, className, headers }) => {
+const Table: React.FC<TableProps> = ({
+  children,
+  className = { table: "", header: "" },
+  headers,
+}) => {
   const showHeader = (headers: string[], className: string[] | string) => {
-    if (headers.length > 1 || (headers.length === 1 && headers[0] !== "")) {
+    if (headers?.length > 1 || (headers?.length === 1 && headers[0] !== "")) {
       return <Header headers={headers} className={className} />;
     }
   };
