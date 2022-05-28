@@ -9,6 +9,7 @@ import { api } from "../../libs/api";
 import Column from "../atoms/column";
 import CarInformationCard from "./car-information-card";
 import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/router";
 
 interface CarTableRowsProps {
   cars: CarDataType[];
@@ -19,9 +20,15 @@ const CarTableRows: React.FC<CarTableRowsProps> = ({
   cars,
   className = { body: "", rows: "" },
 }) => {
+  // Next router
+  const { push } = useRouter()
+  // === Show delete modal state ===
   const [showDeleteModal, setShowDeleteModal] = useState<string | number>();
-  const queryClient = useQueryClient();
 
+  // === Query ===
+  // Query client
+  const queryClient = useQueryClient();
+  // Query mutate
   const { mutate, isSuccess } = useMutation(
     (id: number | string) => api.delete(`/car/${id}`),
     {
@@ -44,7 +51,7 @@ const CarTableRows: React.FC<CarTableRowsProps> = ({
             <td className="space-x-2 flex py-2">
               <Button
                 className="bg-blue-400 flex flex-row"
-                onClick={() => console.log("Editar " + car.id)}
+                onClick={() => push(`/carros/editar/${car.id}`)}
               >
                 <EditIcon width="24px" />
                 Editar
