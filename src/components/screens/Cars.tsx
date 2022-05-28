@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Body from "../atoms/body";
 import CarTableRows from "../molecules/car-table-rows";
 import Input from "../atoms/input";
@@ -16,6 +16,7 @@ import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
 import "react-toastify/dist/ReactToastify.css";
 import { FilterDataByType } from "../types/filterDataByType";
+import showToastContext from "../contexts/show-toast-context";
 
 const Cars: React.FC = () => {
   // === Filter Inputs ===
@@ -24,13 +25,18 @@ const Cars: React.FC = () => {
   // Brand filter
   const [brandFilter, setBrandFilter] = useState("all");
 
+  // === Toast Context ===
+  const { errorToast } = useContext(showToastContext);
+
   // === Query ===
   // Get cars
   const { data }: UseQueryResult<CarDataType[], Error> = useQuery<
     CarDataType[],
     Error,
     CarDataType[]
-  >("cars", () => getCarsList());
+  >("cars", () => getCarsList(), {
+    onError: (err) => errorToast(err.message),
+  });
 
   // === Filter functions ===
   // Filter by plate
@@ -45,7 +51,7 @@ const Cars: React.FC = () => {
   };
 
   // Filtered data
-  const cars = filterDataByPlate(data, plateFilter)
+  const cars = filterDataByPlate(data, plateFilter);
 
   // === Temporário ===
   const brandList: BrandDataType[] = [
