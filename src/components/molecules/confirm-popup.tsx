@@ -1,12 +1,14 @@
-import { ReactNode } from "react";
+import { Dialog } from "@headlessui/react";
+import { ReactNode, useEffect, useState } from "react";
 import Column from "../atoms/column";
 import Row from "../atoms/row";
 
 interface ConfirmPopupProps {
-  confirmed: (a: boolean) => void;
+  confirmed: () => void;
   title: string;
   children: ReactNode;
   showing: boolean;
+  onClose: () => void;
 }
 
 const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
@@ -14,31 +16,30 @@ const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
   title,
   children,
   showing,
+  onClose,
 }) => {
-  if (!showing) return null
   return (
-    <div className={["w-full h-full fixed left-0 top-0 flex justify-center items-center"].join(" ")}>
-      <Column className="pointer-events-auto bg-gray-200 rounded-lg border-2 border-black overflow-hidden justify-between min-h-[20%] min-w-[30%]">
-        <Column className="m-4 text-center">
-          <h2 className="font-bold">{title}</h2>
-          <span>{children}</span>
-        </Column>
-        <Row className="h-fit w-full">
-          <input
-            className="border-t-2 border-r p-2 border-black bg-gray-100 flex-grow cursor-pointer"
-            type="button"
-            value="Não"
-            onClick={() => confirmed(false)}
-          />
-          <input
-            className="border-t-2 border-l p-2 border-black bg-gray-100 flex-grow cursor-pointer"
-            type="button"
-            value="Sim"
-            onClick={() => confirmed(true)}
-          />
-        </Row>
+    <Dialog className="relative z-50" open={showing} onClose={onClose}>
+      <Column className="fixed inset-0 items-center justify-center">
+        <Dialog.Panel className="w-full max-w-md rounded-md bg-gray-100 border shadow-md shadow-[rgb(150,150,150,0.1)]">
+          <Column className="justify-center p-4">
+            <Dialog.Title className="flex justify-center font-bold text-lg">{title}</Dialog.Title>
+            {children}
+          </Column>
+          <Row className="justify-between h-8 bg-white">
+            <button className="flex flex-grow justify-center items-center border-t border-r" onClick={onClose}>
+              Não
+            </button>
+            <button
+              className="flex flex-grow justify-center items-center border-t"
+              onClick={confirmed}
+            >
+              Sim
+            </button>
+          </Row>
+        </Dialog.Panel>
       </Column>
-    </div>
+    </Dialog>
   );
 };
 
