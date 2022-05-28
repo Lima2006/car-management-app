@@ -3,13 +3,14 @@ import Button from "../atoms/button";
 import EditIcon from "../assets/icons/edit-icon.svg";
 import DeleteIcon from "../assets/icons/delete-icon.svg";
 import ConfirmPopup from "./confirm-popup";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useContext, useState } from "react";
+import { useMutation, UseMutationResult, useQueryClient } from "react-query";
 import { api } from "../../libs/api";
 import Column from "../atoms/column";
 import CarInformationCard from "./car-information-card";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
+import showToastContext from "../contexts/show-toast-context";
 
 interface CarTableRowsProps {
   cars: CarDataType[];
@@ -21,7 +22,11 @@ const CarTableRows: React.FC<CarTableRowsProps> = ({
   className = { body: "", rows: "" },
 }) => {
   // Next router
-  const { push } = useRouter()
+  const { push } = useRouter();
+
+  // === Toast context ===
+  const { successToast, errorToast } = useContext(showToastContext);
+
   // === Show delete modal state ===
   const [showDeleteModal, setShowDeleteModal] = useState<string | number>();
 
@@ -29,16 +34,15 @@ const CarTableRows: React.FC<CarTableRowsProps> = ({
   // Query client
   const queryClient = useQueryClient();
   // Query mutate
-  const { mutate, isSuccess } = useMutation(
-    (id: number | string) => api.delete(`/car/${id}`),
-    {
+  const { mutate }: UseMutationResult<CarDataType, Error, string | number> =
+    useMutation((id: number | string) => api.delete(`/car/${id}`), {
       onSuccess: () => {
         queryClient.invalidateQueries("cars");
         setShowDeleteModal(undefined);
-        toast.success("Carro excluído com sucesso!");
+        successToast("Carro excluído com sucesso!");
       },
-    }
-  );
+      onError: (err) => errorToast(err.message),
+    });
 
   return (
     <tbody className={className.body}>
@@ -78,21 +82,6 @@ const CarTableRows: React.FC<CarTableRowsProps> = ({
           </tr>
         );
       })}
-      <tr className="absolute">
-        <td>
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover={false}
-          />
-        </td>
-      </tr>
     </tbody>
   );
 };
