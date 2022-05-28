@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import Button from "../atoms/button";
 import Column from "../atoms/column";
 import Input from "../atoms/input";
@@ -23,11 +23,8 @@ const CarForm: React.FC<CarFormProps> = ({
     plate: "",
   },
 }) => {
-  // === Car data ===
-  // State
+  // === Car data state ===
   const [data, setData] = useState<NewCarDataType>(defaultValues);
-  // Update data
-  useEffect(() => setData(defaultValues), [defaultValues]);
 
   // === Submit ===
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
