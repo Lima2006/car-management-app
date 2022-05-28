@@ -34,7 +34,7 @@ const CarTableRows: React.FC<CarTableRowsProps> = ({
   const queryClient = useQueryClient();
   // Query mutate
   const { mutate }: UseMutationResult<CarDataType, Error, string | number> =
-    useMutation((id: number | string) => api.delete(`/car/${id}`), {
+    useMutation((id) => api.delete(`/car/${id}`), {
       onSuccess: () => {
         queryClient.invalidateQueries("cars");
         setShowDeleteModal(undefined);
