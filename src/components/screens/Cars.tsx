@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Body from "../atoms/body";
 import CarTableRows from "../molecules/car-table-rows";
 import Input from "../atoms/input";
@@ -14,6 +14,7 @@ import LinkButton from "../atoms/link-button";
 import { useQuery, UseQueryResult } from "react-query";
 import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
+import 'react-toastify/dist/ReactToastify.css'
 
 const Cars: React.FC = () => {
   const {
