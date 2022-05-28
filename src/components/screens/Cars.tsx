@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Body from "../atoms/body";
 import CarTableRows from "../molecules/car-table-rows";
 import Input from "../atoms/input";
@@ -16,16 +16,26 @@ import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
 
 const Cars: React.FC = () => {
-  const { data: cars }: UseQueryResult<CarDataType[], Error> = useQuery<
+  const {
+    data: cars,
+  }: UseQueryResult<CarDataType[], Error> = useQuery<
     CarDataType[],
-    Error
-  >("cars", getCarsList);
+    Error,
+    CarDataType[]
+  >("cars", () => getCarsList());
+
+  // === Temporário ===
   const brandList: BrandDataType[] = [
     { name: "Fiat", id: 0 },
     { name: "Alfa Romeo", id: 1 },
   ];
+
+  // === Filter Inputs ===
+  // Plate filter
   const [plateFilter, setPlateFilter] = useState("");
-  const [brandFilter, setBrandFilter] = useState("all")
+  // Brand filter
+  const [brandFilter, setBrandFilter] = useState("all");
+
   return (
     <Webpage title="Carros">
       <Navbar />
@@ -49,7 +59,6 @@ const Cars: React.FC = () => {
             name="selecionar-marcas"
             id="select-brand"
             label="Filtrar por marca"
-            defaultValue="all"
             value={brandFilter}
             onChange={(e) => setBrandFilter(e.target["value"])}
           >
