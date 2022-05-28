@@ -14,27 +14,44 @@ import LinkButton from "../atoms/link-button";
 import { useQuery, UseQueryResult } from "react-query";
 import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
+import "react-toastify/dist/ReactToastify.css";
+import { FilterDataByType } from "../types/filterDataByType";
 
 const Cars: React.FC = () => {
-  const {
-    data: cars,
-  }: UseQueryResult<CarDataType[], Error> = useQuery<
+  // === Filter Inputs ===
+  // Plate filter
+  const [plateFilter, setPlateFilter] = useState("");
+  // Brand filter
+  const [brandFilter, setBrandFilter] = useState("all");
+
+  // === Query ===
+  // Get cars
+  const { data }: UseQueryResult<CarDataType[], Error> = useQuery<
     CarDataType[],
     Error,
     CarDataType[]
   >("cars", () => getCarsList());
+
+  // === Filter functions ===
+  // Filter by plate
+  const filterDataByPlate: FilterDataByType = (data, query) => {
+    return data.filter((car) => {
+      if (query === "") {
+        return data;
+      } else if (car.plate.toLowerCase().includes(query.toLowerCase())) {
+        return car;
+      }
+    });
+  };
+
+  // Filtered data
+  const cars = filterDataByPlate(data, plateFilter)
 
   // === Temporário ===
   const brandList: BrandDataType[] = [
     { name: "Fiat", id: 0 },
     { name: "Alfa Romeo", id: 1 },
   ];
-
-  // === Filter Inputs ===
-  // Plate filter
-  const [plateFilter, setPlateFilter] = useState("");
-  // Brand filter
-  const [brandFilter, setBrandFilter] = useState("all");
 
   return (
     <Webpage title="Carros">
