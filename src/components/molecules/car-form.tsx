@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Button from "../atoms/button";
 import Column from "../atoms/column";
 import Input from "../atoms/input";
@@ -23,12 +23,18 @@ const CarForm: React.FC<CarFormProps> = ({
     plate: "",
   },
 }) => {
+  // === Car data ===
+  // State
   const [data, setData] = useState<NewCarDataType>(defaultValues);
+  // Update data
+  useEffect(() => setData(defaultValues), [defaultValues]);
 
+  // === Submit ===
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(data);
   };
+
   return (
     <form onSubmit={(e) => submitForm(e)}>
       <Column className={["space-y-4", className].join("")}>
@@ -46,7 +52,12 @@ const CarForm: React.FC<CarFormProps> = ({
           onChange={(e) => setData({ ...data, plate: e.target.value })}
           label="Placa"
         />
-        <Selector value={data.brand.id.toString()} onChange={(e) => console.log(e)} id="BrandInputForm" label="Marca"></Selector>
+        <Selector
+          value={data.brand.id.toString()}
+          onChange={(e) => console.log(e)}
+          id="BrandInputForm"
+          label="Marca"
+        ></Selector>
         <Input
           type="text"
           id="ColorInputForm"
