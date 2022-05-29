@@ -34,7 +34,7 @@ const CarForm: React.FC<CarFormProps> = ({
 
   return (
     <form onSubmit={(e) => submitForm(e)}>
-      <Column className={["space-y-4", className].join("")}>
+      <Column className={["space-y-4", className].join(" ")}>
         <Input
           type="text"
           id="NameInputForm"
