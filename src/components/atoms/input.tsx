@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEventHandler } from "react";
 
 interface InputProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   id: string;
   value: string;
