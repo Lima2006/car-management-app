@@ -11,7 +11,7 @@ import BrandDataType from "../types/brand-data-type";
 import CarDataType from "../types/car-data-type";
 import PlusIcon from "../assets/icons/plus-icon.svg";
 import LinkButton from "../atoms/link-button";
-import { isError, useQuery, UseQueryResult } from "react-query";
+import { useQuery, UseQueryResult } from "react-query";
 import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +20,7 @@ import showToastContext from "../contexts/show-toast-context";
 import { getBrands } from "../../services/getBrands";
 import LoadingScreen from "./loading-screen";
 import Column from "../atoms/column";
+import ErrorScreen from "./error-screen";
 
 const Cars: React.FC = () => {
   // === Filter Inputs ===
@@ -33,10 +34,29 @@ const Cars: React.FC = () => {
 
   // === Query ===
   // Get cars
-  const { data, isLoading, isSuccess }: UseQueryResult<CarDataType[], Error> =
-    useQuery<CarDataType[], Error, CarDataType[]>("cars", () => getCarsList(), {
-      onError: (err) => errorToast(err.message),
-    });
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+  }: UseQueryResult<CarDataType[], Error> = useQuery<
+    CarDataType[],
+    Error,
+    CarDataType[]
+  >("cars", () => getCarsList(), {
+    onError: (err) => {
+      errorToast(`Buscar carros: ${err.message}`);
+      setErrorData(err);
+    },
+  });
+  // Get brands
+  const { data: brandList } = useQuery<BrandDataType[], Error>(
+    "brands",
+    () => getBrands(),
+    {
+      onError: (err) => errorToast(`Buscar marcas: ${err.message}`),
+    }
+  );
 
   // === Filter functions ===
   // Filter by plate
@@ -55,19 +75,15 @@ const Cars: React.FC = () => {
   // Filtered data
   const cars = filterData(data, plateFilter, brandFilter);
 
-  const { data: brandList } = useQuery<BrandDataType[], Error>(
-    "brands",
-    () => getBrands(),
-    {
-      onError: (err) => errorToast(err.message),
-    }
-  );
+  // === Error data ===
+  const [errorData, setErrorData] = useState(undefined);
 
   return (
     <Webpage title="Carros">
       <Navbar />
       <Body>
         {isLoading && <LoadingScreen />}
+        {isError && <ErrorScreen error={errorData} />}
         {isSuccess && (
           <Column className="space-y-4">
             <Row className="justify-between items-center">
