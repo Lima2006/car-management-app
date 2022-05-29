@@ -1,6 +1,6 @@
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({

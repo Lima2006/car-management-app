@@ -1,13 +1,14 @@
 import { ChangeEvent, FormEventHandler } from "react";
 
 interface InputProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   id: string;
   value: string;
   type: "text";
   className?: { div?: string; label?: string; input?: string };
   label?: string;
+  required?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   id,
   label,
+  required,
 }) => (
   <div className={["flex flex-col w-48", className.div].join(" ")}>
     {label && (
@@ -32,6 +34,8 @@ const Input: React.FC<InputProps> = ({
       value={value}
       onChange={(e) => onChange(e)}
       placeholder={placeholder}
+      readOnly={onChange === undefined}
+      required={required}
     />
   </div>
 );

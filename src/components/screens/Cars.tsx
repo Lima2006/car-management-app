@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Body from "../atoms/body";
 import CarTableRows from "../molecules/car-table-rows";
 import Input from "../atoms/input";
@@ -15,7 +15,9 @@ import { useQuery, UseQueryResult } from "react-query";
 import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
 import "react-toastify/dist/ReactToastify.css";
-import { FilterDataByType } from "../types/filterDataByType";
+import { FilterData } from "../types/filterDataType";
+import showToastContext from "../contexts/show-toast-context";
+import { getBrands } from "../../services/getBrands";
 
 const Cars: React.FC = () => {
   // === Filter Inputs ===
@@ -24,34 +26,40 @@ const Cars: React.FC = () => {
   // Brand filter
   const [brandFilter, setBrandFilter] = useState("all");
 
+  // === Toast Context ===
+  const { errorToast } = useContext(showToastContext);
+
   // === Query ===
   // Get cars
   const { data }: UseQueryResult<CarDataType[], Error> = useQuery<
     CarDataType[],
     Error,
     CarDataType[]
-  >("cars", () => getCarsList());
+  >("cars", () => getCarsList(), {
+    onError: (err) => errorToast(err.message),
+  });
 
   // === Filter functions ===
   // Filter by plate
-  const filterDataByPlate: FilterDataByType = (data, query) => {
-    return data.filter((car) => {
-      if (query === "") {
+  const filterData: FilterData = (data, plateFilter, brandFilter) => {
+    return data?.filter((car) => {
+      if (plateFilter === "" && brandFilter === "all") {
         return data;
-      } else if (car.plate.toLowerCase().includes(query.toLowerCase())) {
+      } else if (car.plate.toLowerCase().includes(plateFilter.toLowerCase()) && car.brand.id?.toString() === brandFilter?.toString()) {
         return car;
       }
     });
   };
-
   // Filtered data
-  const cars = filterDataByPlate(data, plateFilter)
+  const cars = filterData(data, plateFilter, brandFilter);
 
-  // === Temporário ===
-  const brandList: BrandDataType[] = [
-    { name: "Fiat", id: 0 },
-    { name: "Alfa Romeo", id: 1 },
-  ];
+  const { data: brandList } = useQuery<BrandDataType[], Error>(
+    "brands",
+    () => getBrands(),
+    {
+      onError: (err) => errorToast(err.message),
+    }
+  );
 
   return (
     <Webpage title="Carros">
@@ -80,7 +88,7 @@ const Cars: React.FC = () => {
             onChange={(e) => setBrandFilter(e.target["value"])}
           >
             <option value="all">Todas</option>
-            {brandList.map((brand: BrandDataType) => (
+            {brandList?.map((brand: BrandDataType) => (
               <option key={brand.id} value={brand.id}>
                 {brand.name}
               </option>

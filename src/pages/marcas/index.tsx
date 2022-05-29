@@ -1,5 +1,7 @@
+import Brands from "../../components/screens/Brands";
+
 const BrandsPage = () => {
-  return <div>Aqui serão mostradas as marcas</div>;
+  return <Brands />
 };
 
 export default BrandsPage;

@@ -1,6 +1,7 @@
 import CarDataType from "./car-data-type";
 
-export type FilterDataByType = (
+export type FilterData = (
   data: CarDataType[],
-  query: string
+  plateFilter: string,
+  brandFilter: string | number
 ) => CarDataType[];

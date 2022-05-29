@@ -1,5 +1,7 @@
+import NewBrand from "../../components/screens/NewBrand";
+
 const NewBrandPage = () => {
-  return <div>Aqui será mostrada a página de criação de uma nova marca</div>;
+  return <NewBrand />
 };
 
 export default NewBrandPage;

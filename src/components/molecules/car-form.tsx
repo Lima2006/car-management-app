@@ -5,12 +5,14 @@ import Input from "../atoms/input";
 import LinkButton from "../atoms/link-button";
 import Row from "../atoms/row";
 import Selector from "../atoms/selector";
+import BrandDataType from "../types/brand-data-type";
 import NewCarDataType from "../types/new-car-data-type";
 
 interface CarFormProps {
   onSubmit: (d: NewCarDataType) => void;
   defaultValues?: NewCarDataType;
   className?: string;
+  brandOptions: BrandDataType[];
 }
 
 const CarForm: React.FC<CarFormProps> = ({
@@ -22,6 +24,7 @@ const CarForm: React.FC<CarFormProps> = ({
     color: "",
     plate: "",
   },
+  brandOptions,
 }) => {
   // === Car data state ===
   const [data, setData] = useState<NewCarDataType>(defaultValues);
@@ -34,7 +37,7 @@ const CarForm: React.FC<CarFormProps> = ({
 
   return (
     <form onSubmit={(e) => submitForm(e)}>
-      <Column className={["space-y-4", className].join("")}>
+      <Column className={["space-y-4", className].join(" ")}>
         <Input
           type="text"
           id="NameInputForm"
@@ -50,11 +53,19 @@ const CarForm: React.FC<CarFormProps> = ({
           label="Placa"
         />
         <Selector
-          value={data.brand.id.toString()}
-          onChange={(e) => console.log(e)}
+          value={data.brand?.id.toString()}
+          onChange={(e) =>
+            setData({...data, brand: brandOptions[e.target.value]})
+          }
           id="BrandInputForm"
           label="Marca"
-        ></Selector>
+        >
+          {brandOptions?.map((brand) => (
+            <option key={brand.id} value={brand.id}>
+              {brand.name}
+            </option>
+          ))}
+        </Selector>
         <Input
           type="text"
           id="ColorInputForm"

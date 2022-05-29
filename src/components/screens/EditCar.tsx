@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useMutation, UseMutationResult, useQuery } from "react-query";
+import { getBrands } from "../../services/getBrands";
 import { getCar } from "../../services/getCar";
 import { putCar } from "../../services/putCar";
 import Body from "../atoms/body";
@@ -8,6 +9,7 @@ import Webpage from "../atoms/webpage";
 import showToastContext from "../contexts/show-toast-context";
 import CarForm from "../molecules/car-form";
 import Navbar from "../molecules/navbar";
+import BrandDataType from "../types/brand-data-type";
 import CarDataType from "../types/car-data-type";
 
 const EditCar: React.FC = () => {
@@ -34,6 +36,14 @@ const EditCar: React.FC = () => {
     },
     onError: (err) => errorToast(err.message)
   });
+  // Get brands
+  const { data: brands } = useQuery<BrandDataType[], Error>(
+    "brands",
+    () => getBrands(),
+    {
+      onError: (err) => errorToast(err.message),
+    }
+  );
 
   return (
     <Webpage title="Editar carro">
@@ -42,6 +52,7 @@ const EditCar: React.FC = () => {
         {isSuccess && <CarForm
           defaultValues={car}
           onSubmit={(d) => mutate({ ...d, id: car.id })}
+          brandOptions={brands}
         />}
       </Body>
     </Webpage>

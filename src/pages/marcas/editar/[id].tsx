@@ -1,5 +1,7 @@
+import EditBrand from "../../../components/screens/EditBrand";
+
 const EditCarPage = () => {
-  return <div>Aqui será o formulário para editar uma marca</div>;
+  return <EditBrand />
 };
 
 export default EditCarPage;
