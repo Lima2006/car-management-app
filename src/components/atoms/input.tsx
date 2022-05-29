@@ -8,6 +8,7 @@ interface InputProps {
   type: "text";
   className?: { div?: string; label?: string; input?: string };
   label?: string;
+  required?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   id,
   label,
+  required,
 }) => (
   <div className={["flex flex-col w-48", className.div].join(" ")}>
     {label && (
@@ -33,6 +35,7 @@ const Input: React.FC<InputProps> = ({
       onChange={(e) => onChange(e)}
       placeholder={placeholder}
       readOnly={onChange === undefined}
+      required={required}
     />
   </div>
 );
