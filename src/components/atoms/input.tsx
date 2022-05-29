@@ -32,6 +32,7 @@ const Input: React.FC<InputProps> = ({
       value={value}
       onChange={(e) => onChange(e)}
       placeholder={placeholder}
+      readOnly={onChange === undefined}
     />
   </div>
 );
