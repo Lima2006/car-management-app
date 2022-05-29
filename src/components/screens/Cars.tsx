@@ -11,13 +11,15 @@ import BrandDataType from "../types/brand-data-type";
 import CarDataType from "../types/car-data-type";
 import PlusIcon from "../assets/icons/plus-icon.svg";
 import LinkButton from "../atoms/link-button";
-import { useQuery, UseQueryResult } from "react-query";
+import { isError, useQuery, UseQueryResult } from "react-query";
 import { getCarsList } from "../../services/getCarsList";
 import Title from "../atoms/title";
 import "react-toastify/dist/ReactToastify.css";
 import { FilterData } from "../types/filterDataType";
 import showToastContext from "../contexts/show-toast-context";
 import { getBrands } from "../../services/getBrands";
+import LoadingScreen from "./loading-screen";
+import Column from "../atoms/column";
 
 const Cars: React.FC = () => {
   // === Filter Inputs ===
@@ -31,13 +33,10 @@ const Cars: React.FC = () => {
 
   // === Query ===
   // Get cars
-  const { data }: UseQueryResult<CarDataType[], Error> = useQuery<
-    CarDataType[],
-    Error,
-    CarDataType[]
-  >("cars", () => getCarsList(), {
-    onError: (err) => errorToast(err.message),
-  });
+  const { data, isLoading, isSuccess }: UseQueryResult<CarDataType[], Error> =
+    useQuery<CarDataType[], Error, CarDataType[]>("cars", () => getCarsList(), {
+      onError: (err) => errorToast(err.message),
+    });
 
   // === Filter functions ===
   // Filter by plate
@@ -45,7 +44,10 @@ const Cars: React.FC = () => {
     return data?.filter((car) => {
       if (plateFilter === "" && brandFilter === "all") {
         return data;
-      } else if (car.plate.toLowerCase().includes(plateFilter.toLowerCase()) && car.brand.id?.toString() === brandFilter?.toString()) {
+      } else if (
+        car.plate.toLowerCase().includes(plateFilter.toLowerCase()) &&
+        car.brand.id?.toString() === brandFilter?.toString()
+      ) {
         return car;
       }
     });
@@ -64,46 +66,54 @@ const Cars: React.FC = () => {
   return (
     <Webpage title="Carros">
       <Navbar />
-      <Body className="space-y-4">
-        <Row className="justify-between items-center">
-          <Title>Carros</Title>
-          <LinkButton href="/carros/novo">
-            <PlusIcon width="24px" />
-            <span>Novo Carro</span>
-          </LinkButton>
-        </Row>
-        <Row className="space-x-4">
-          <Input
-            id="plateFilter"
-            type="text"
-            value={plateFilter}
-            onChange={(e) => setPlateFilter(e.target["value"])}
-            label="Filtrar por placa"
-          />
-          <Selector
-            name="selecionar-marcas"
-            id="select-brand"
-            label="Filtrar por marca"
-            value={brandFilter}
-            onChange={(e) => setBrandFilter(e.target["value"])}
-          >
-            <option value="all">Todas</option>
-            {brandList?.map((brand: BrandDataType) => (
-              <option key={brand.id} value={brand.id}>
-                {brand.name}
-              </option>
-            ))}
-          </Selector>
-        </Row>
-        <Table
-          className={{
-            table: "border",
-            header: ["w-1/4", "w-1/4", "w-auto", "w-48"],
-          }}
-          headers={["Placa", "Cor", "Marca", "Ações"]}
-        >
-          <CarTableRows cars={cars} className={{ rows: "odd:bg-gray-100" }} />
-        </Table>
+      <Body>
+        {isLoading && <LoadingScreen />}
+        {isSuccess && (
+          <Column className="space-y-4">
+            <Row className="justify-between items-center">
+              <Title>Carros</Title>
+              <LinkButton href="/carros/novo">
+                <PlusIcon width="24px" />
+                <span>Novo Carro</span>
+              </LinkButton>
+            </Row>
+            <Row className="space-x-4">
+              <Input
+                id="plateFilter"
+                type="text"
+                value={plateFilter}
+                onChange={(e) => setPlateFilter(e.target["value"])}
+                label="Filtrar por placa"
+              />
+              <Selector
+                name="selecionar-marcas"
+                id="select-brand"
+                label="Filtrar por marca"
+                value={brandFilter}
+                onChange={(e) => setBrandFilter(e.target["value"])}
+              >
+                <option value="all">Todas</option>
+                {brandList?.map((brand: BrandDataType) => (
+                  <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </option>
+                ))}
+              </Selector>
+            </Row>
+            <Table
+              className={{
+                table: "border",
+                header: ["w-1/4", "w-1/4", "w-auto", "w-48"],
+              }}
+              headers={["Placa", "Cor", "Marca", "Ações"]}
+            >
+              <CarTableRows
+                cars={cars}
+                className={{ rows: "odd:bg-gray-100" }}
+              />
+            </Table>
+          </Column>
+        )}
       </Body>
     </Webpage>
   );
