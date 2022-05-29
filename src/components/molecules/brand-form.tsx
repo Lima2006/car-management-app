@@ -45,10 +45,11 @@ const BrandForm: React.FC<BrandFormProps> = ({
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
           label="Marca"
+          required
         />
         <Row className="space-x-4">
           <Button>Salvar</Button>
-          <LinkButton href="/carros">Voltar</LinkButton>
+          <LinkButton href="/marcas">Voltar</LinkButton>
         </Row>
       </Column>
     </form>
