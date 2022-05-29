@@ -22,14 +22,14 @@ const Header: React.FC<HeaderProps> = ({ className, headers }) => {
       return className[input];
     else return "";
   };
-  
+
   return (
     <thead>
       <tr>
         {headers.map((header, i) => (
           <th
             key={header}
-            className={["bg-gray-200 text-left", validateClassName(i)].join(
+            className={["bg-gray-200 text-left first:px-2 py-1", validateClassName(i)].join(
               " "
             )}
           >
@@ -52,10 +52,12 @@ const Table: React.FC<TableProps> = ({
     }
   };
   return (
-    <table className={["w-full", className.table].join(" ")}>
-      {showHeader(headers, className.header)}
-      {children}
-    </table>
+    <div className="rounded-md overflow-hidden border">
+      <table className={["w-full", className.table].join(" ")}>
+        {showHeader(headers, className.header)}
+        {children}
+      </table>
+    </div>
   );
 };
 
