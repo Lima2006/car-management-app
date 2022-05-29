@@ -118,7 +118,6 @@ const Cars: React.FC = () => {
             </Row>
             <Table
               className={{
-                table: "border",
                 header: ["w-1/4", "w-1/4", "w-auto", "w-48"],
               }}
               headers={["Placa", "Cor", "Marca", "Ações"]}
