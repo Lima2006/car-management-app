@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { getBrands } from "../../services/getBrands";
 import { postCar } from "../../services/postCar";
 import Body from "../atoms/body";
+import Column from "../atoms/column";
 import Title from "../atoms/title";
 import Webpage from "../atoms/webpage";
 import showToastContext from "../contexts/show-toast-context";
@@ -41,9 +42,11 @@ const NewCar: React.FC = () => {
   return (
     <Webpage title="Novo Carro">
       <Navbar />
-      <Body>
-        <Title className="mb-4">Novo Carro</Title>
-        <CarForm onSubmit={(d) => mutate(d)} brandOptions={brands} />
+      <Body className="items-center">
+        <Column className="bg-gray-100 w-1/3 p-8 pt-4 space-y-4 rounded-xl border-2 shadow-md items-center">
+          <Title className="mb-4">Novo Carro</Title>
+          <CarForm onSubmit={(d) => mutate(d)} brandOptions={brands} />
+        </Column>
       </Body>
     </Webpage>
   );
