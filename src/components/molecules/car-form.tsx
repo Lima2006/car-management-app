@@ -36,7 +36,7 @@ const CarForm: React.FC<CarFormProps> = ({
   };
 
   return (
-    <form onSubmit={(e) => submitForm(e)}>
+    <form onSubmit={(e) => submitForm(e)} className="w-full">
       <Column className={["space-y-4", className].join(" ")}>
         <Input
           type="text"
@@ -44,6 +44,7 @@ const CarForm: React.FC<CarFormProps> = ({
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
           label="Nome"
+          className={{ div: "w-full" }}
         ></Input>
         <Input
           type="text"
@@ -51,14 +52,16 @@ const CarForm: React.FC<CarFormProps> = ({
           value={data.plate}
           onChange={(e) => setData({ ...data, plate: e.target.value })}
           label="Placa"
+          className={{ div: "w-full" }}
         />
         <Selector
           value={data.brand?.id.toString()}
           onChange={(e) =>
-            setData({...data, brand: brandOptions[e.target.value]})
+            setData({ ...data, brand: brandOptions[e.target.value] })
           }
           id="BrandInputForm"
           label="Marca"
+          className={{ div: "w-full", row: "w-full" }}
         >
           {brandOptions?.map((brand) => (
             <option key={brand.id} value={brand.id}>
@@ -72,10 +75,18 @@ const CarForm: React.FC<CarFormProps> = ({
           value={data.color}
           onChange={(e) => setData({ ...data, color: e.target.value })}
           label="Cor"
+          className={{ div: "w-full" }}
         />
-        <Row className="space-x-4">
-          <Button onClick={() => null}>Salvar</Button>
-          <LinkButton href="/carros">Voltar</LinkButton>
+        <Row className="space-x-4 justify-center">
+          <Button
+            onClick={() => null}
+            className="bg-green-400 border border-green-500 rounded-md shadow hover:bg-green-300 hover:border-green-400"
+          >
+            Salvar
+          </Button>
+          <LinkButton href="/carros" className="bg-gray-100">
+            Voltar
+          </LinkButton>
         </Row>
       </Column>
     </form>
