@@ -6,14 +6,14 @@ interface SelectorProps {
   id: string;
   name?: string;
   children?: any;
-  className?: { div?: string; label?: string; select?: string };
+  className?: { div?: string; label?: string; select?: string, row?: string };
   label?: string;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   value: string;
 }
 
 const Selector: React.FC<SelectorProps> = ({
-  className = { div: "", label: "", select: "" },
+  className = { div: "", label: "", select: "", row: "" },
   id,
   name,
   children,
@@ -25,7 +25,7 @@ const Selector: React.FC<SelectorProps> = ({
     <label className={["", className.label].join(" ")} htmlFor="id">
       {label}
     </label>
-    <Row className="h-8 border rounded-full shadow w-24 overflow-hidden justify-end items-center">
+    <Row className={["h-8 border rounded-full shadow w-24 overflow-hidden justify-end items-center", className.row].join(" ")}>
       <select
         name={name}
         id={id}
