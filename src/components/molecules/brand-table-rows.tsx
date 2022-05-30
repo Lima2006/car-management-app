@@ -48,7 +48,7 @@ const BrandTableRows: React.FC<BrandTableRowsProps> = ({
       {brands?.map((brand: BrandDataType) => {
         return (
           <tr key={brand.id} className={className.rows || ""}>
-            <td>{brand.name}</td>
+            <td className="pl-2">{brand.name}</td>
             <td className="space-x-2 flex py-2">
               <Button
                 className="bg-blue-400 flex flex-row"

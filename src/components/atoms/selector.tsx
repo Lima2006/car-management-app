@@ -1,4 +1,6 @@
 import { ChangeEvent } from "react";
+import ArrowIcon from "../assets/icons/arrow-down.svg"
+import Row from "./row";
 
 interface SelectorProps {
   id: string;
@@ -19,19 +21,25 @@ const Selector: React.FC<SelectorProps> = ({
   onChange,
   value,
 }) => (
-  <div className={["flex flex-col", className.div].join(" ")}>
+  <div className={["items-center", className.div || "flex flex-col"].join(" ")}>
     <label className={["", className.label].join(" ")} htmlFor="id">
       {label}
     </label>
-    <select
-      name={name}
-      id={id}
-      className={["border-2 rounded-sm w-48", className.select].join(" ")}
-      value={value}
-      onChange={(e) => onChange(e)}
-    >
-      {children}
-    </select>
+    <Row className="h-8 border rounded-full shadow w-24 overflow-hidden justify-end items-center">
+      <select
+        name={name}
+        id={id}
+        className={[
+          "w-full h-full appearance-none px-2 focus:outline-none",
+          className.select,
+        ].join(" ")}
+        value={value}
+        onChange={(e) => onChange(e)}
+      >
+        {children}
+      </select>
+      <ArrowIcon width="20px" className="absolute pointer-events-none" />
+    </Row>
   </div>
 );
 

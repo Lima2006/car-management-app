@@ -48,7 +48,7 @@ const CarTableRows: React.FC<CarTableRowsProps> = ({
       {cars?.map((car: CarDataType) => {
         return (
           <tr key={car.id} className={className.rows || ""}>
-            <td>{car.plate}</td>
+            <td className="pl-2">{car.plate}</td>
             <td>{car.color}</td>
             <td>{car.brand.name}</td>
             <td className="space-x-2 flex py-2">
