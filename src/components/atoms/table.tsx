@@ -52,7 +52,7 @@ const Table: React.FC<TableProps> = ({
     }
   };
   return (
-    <div className="rounded-md overflow-hidden border">
+    <div className="rounded-md overflow-hidden border shadow">
       <table className={["w-full", className.table].join(" ")}>
         {showHeader(headers, className.header)}
         {children}
