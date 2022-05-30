@@ -30,7 +30,7 @@ const Input: React.FC<InputProps> = ({
     <input
       id={id}
       type={type}
-      className={["border-2 rounded-sm", className.input].join(" ")}
+      className={["border shadow rounded-full px-2 h-8", className.input].join(" ")}
       value={value}
       onChange={(e) => onChange(e)}
       placeholder={placeholder}
