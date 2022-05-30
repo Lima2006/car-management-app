@@ -31,13 +31,19 @@ const BrandForm: React.FC<BrandFormProps> = ({
   };
 
   return (
-    <form onSubmit={(e) => submitForm(e)}>
-      <Column className={["space-y-4", className].join(" ")}>
+    <form onSubmit={(e) => submitForm(e)} className="w-full">
+      <Column
+        className={[
+          "space-y-4 items-center",
+          className,
+        ].join(" ")}
+      >
         <Input
           type="text"
           id="IdPanelForm"
           value={data.id?.toString() || ""}
           label="ID"
+          className={{ div: "w-full" }}
         />
         <Input
           type="text"
@@ -45,11 +51,16 @@ const BrandForm: React.FC<BrandFormProps> = ({
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
           label="Marca"
+          className={{ div: "w-full" }}
           required
         />
         <Row className="space-x-4">
-          <Button>Salvar</Button>
-          <LinkButton href="/marcas">Voltar</LinkButton>
+          <Button className="bg-green-400 border border-green-500 rounded-md shadow hover:bg-green-300 hover:border-green-400">
+            Salvar
+          </Button>
+          <LinkButton href="/marcas" className="bg-gray-100">
+            Voltar
+          </LinkButton>
         </Row>
       </Column>
     </form>
