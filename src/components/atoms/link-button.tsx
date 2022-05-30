@@ -18,8 +18,8 @@ const LinkButton: React.FC<LinkButtonProps> = ({
     <Link href={href}>
       <div
         className={[
-          "hover:bg-white px-2 py-1 rounded-lg flex flex-row cursor-pointer items-center h-min",
-          asPath.includes(href) ? "bg-white shadow rounded-md" : "",
+          "hover:bg-white border border-transparent hover:border-gray-200 px-2 py-1 rounded-lg flex flex-row cursor-pointer items-center h-min",
+          asPath.includes(href) ? "bg-white shadow rounded-md border-gray-200" : "",
           className,
         ].join(" ")}
       >
