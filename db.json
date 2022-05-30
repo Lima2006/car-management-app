@@ -1,9 +1,29 @@
 {
   "brand": [
-    { "id": 0, "name": "Fiat" },
-    { "id": 1, "name": "Alfa Romeo" },
-    { "id": 2, "name": "Lancia" },
-    { "id": 3, "name": "Autobianchi" }
+    {
+      "id": 0,
+      "name": "Fiat"
+    },
+    {
+      "id": 1,
+      "name": "Alfa Romeo"
+    },
+    {
+      "id": 2,
+      "name": "Lancia"
+    },
+    {
+      "id": 3,
+      "name": "Autobianchi"
+    },
+    {
+      "name": "Lamborghini",
+      "id": 4
+    },
+    {
+      "name": "Abarth",
+      "id": 5
+    }
   ],
   "car": [
     {
@@ -11,21 +31,100 @@
       "name": "Palio",
       "plate": "FAT-1300",
       "color": "Prata",
-      "brand": "Fiat"
+      "brand": {
+        "id": 0,
+        "name": "Fiat"
+      }
     },
     {
       "id": 1,
       "name": "MiTo",
       "plate": "ALR-4740",
       "color": "Bordô",
-      "brand": "Alfa Romeo"
+      "brand": {
+        "id": 1,
+        "name": "Alfa Romeo"
+      }
     },
     {
       "id": 2,
       "name": "Delta",
       "plate": "ALR-4740",
       "color": "Bordô",
-      "brand": "Lancia"
+      "brand": {
+        "id": 2,
+        "name": "Lancia"
+      }
+    },
+    {
+      "name": "A112",
+      "brand": {
+        "id": 3,
+        "name": "Autobianchi"
+      },
+      "color": "Preto",
+      "plate": "AAA-0000",
+      "id": 4
+    },
+    {
+      "name": "A112",
+      "brand": {
+        "id": 3,
+        "name": "Autobianchi"
+      },
+      "color": "Preto",
+      "plate": "AAA-1111",
+      "id": 5
+    },
+    {
+      "name": "Idea",
+      "brand": {
+        "id": 0,
+        "name": "Fiat"
+      },
+      "color": "Amarela",
+      "plate": "AAA-0000",
+      "id": 6
+    },
+    {
+      "name": "Brava",
+      "brand": {
+        "id": 0,
+        "name": "Fiat"
+      },
+      "color": "Cinza",
+      "plate": "AAA-0000",
+      "id": 7
+    },
+    {
+      "name": "Stratus",
+      "brand": {
+        "id": 2,
+        "name": "Lancia"
+      },
+      "color": "Azul",
+      "plate": "AAA-0000",
+      "id": 8
+    },
+    {
+      "name": "300C",
+      "brand": {
+        "id": 1,
+        "name": "Alfa Romeo"
+      },
+      "color": "Vermelho",
+      "plate": "AAA-0000",
+      "id": 9
+    },
+    {
+      "name": "Aventador",
+      "brand": {
+        "name": "Lamborghini",
+        "id": 4
+      },
+      "color": "Amarela",
+      "plate": "AAA-0000",
+      "id": 10
     }
   ]
 }
