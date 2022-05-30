@@ -66,7 +66,7 @@ const Cars: React.FC = () => {
         return data;
       } else if (
         car.plate.toLowerCase().includes(plateFilter.toLowerCase()) &&
-        car.brand.id?.toString() === brandFilter?.toString()
+        (car.brand.id?.toString() === brandFilter?.toString() || brandFilter === "all")
       ) {
         return car;
       }
@@ -80,7 +80,30 @@ const Cars: React.FC = () => {
 
   return (
     <Webpage title="Carros">
-      <Navbar />
+      <Navbar>
+        <Input
+          id="plateFilter"
+          type="text"
+          value={plateFilter}
+          onChange={(e) => setPlateFilter(e.target["value"])}
+          placeholder="Filtrar por placa"
+        />
+        <Selector
+          name="selecionar-marcas"
+          id="select-brand"
+          label="Marca:"
+          className={{ div: "flex flex-row space-x-2" }}
+          value={brandFilter}
+          onChange={(e) => setBrandFilter(e.target["value"])}
+        >
+          <option value="all">Todas</option>
+          {brandList?.map((brand: BrandDataType) => (
+            <option key={brand.id} value={brand.id}>
+              {brand.name}
+            </option>
+          ))}
+        </Selector>
+      </Navbar>
       <Body>
         {isLoading && <LoadingScreen />}
         {isError && <ErrorScreen error={errorData} />}
@@ -88,33 +111,10 @@ const Cars: React.FC = () => {
           <Column className="space-y-4">
             <Row className="justify-between items-center">
               <Title>Carros</Title>
-              <LinkButton href="/carros/novo">
+              <LinkButton href="/carros/novo" className="bg-gray-100 border shadow">
                 <PlusIcon width="24px" />
                 <span>Novo Carro</span>
               </LinkButton>
-            </Row>
-            <Row className="space-x-4">
-              <Input
-                id="plateFilter"
-                type="text"
-                value={plateFilter}
-                onChange={(e) => setPlateFilter(e.target["value"])}
-                label="Filtrar por placa"
-              />
-              <Selector
-                name="selecionar-marcas"
-                id="select-brand"
-                label="Filtrar por marca"
-                value={brandFilter}
-                onChange={(e) => setBrandFilter(e.target["value"])}
-              >
-                <option value="all">Todas</option>
-                {brandList?.map((brand: BrandDataType) => (
-                  <option key={brand.id} value={brand.id}>
-                    {brand.name}
-                  </option>
-                ))}
-              </Selector>
             </Row>
             <Table
               className={{
